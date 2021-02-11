@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: true,
+
   devServer: {
     open: true,
     watchOptions: {
@@ -8,11 +9,14 @@ module.exports = {
     // Configure proxy, more: https://github.com/chimurai/http-proxy-middleware#http-proxy-options
     proxy: 'http://localhost:3000/'
   },
+
   css: {
     loaderOptions: {
       scss: {
-        prependData: '@import "~@/assets/scss/vars";'
+        additionalData: '@import "~@/assets/scss/vars";'
       }
     }
-  }
+  },
+
+  transpileDependencies: ['vuetify']
 }

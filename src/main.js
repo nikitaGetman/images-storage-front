@@ -6,6 +6,7 @@ import authService from './services/auth'
 import initializeHttpInterceptors from './http/interceptors'
 
 import '@/assets/scss/base.scss'
+import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
@@ -18,5 +19,6 @@ initializeHttpInterceptors()
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
