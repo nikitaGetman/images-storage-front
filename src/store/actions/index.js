@@ -3,28 +3,28 @@ import { throwError } from '@/utils/store'
 import authService from '@/services/auth'
 import * as types from './types'
 
+const MODULE_NAME = 'account'
+
 export default {
-  [types.LOGIN]: ({ commit }, { login = 'some-login', password = 'some-password' } = {}) => {
-    const name = 'someState'
-    commit(LOADING, name)
+  [types.LOGIN]: ({ commit }, { login, password } = {}) => {
+    commit(LOADING, MODULE_NAME)
 
     return authService
       .login({ login, password })
       .then(model => {
-        commit(SET_MODEL, { name, model })
+        commit(SET_MODEL, { name: MODULE_NAME, model })
       })
       .catch(throwError(commit, 'Ошибка авторизации'))
       .finally(() => {
-        commit(LOADED, name)
+        commit(LOADED, MODULE_NAME)
       })
   },
 
   [types.LOGOUT]: ({ commit }) => {
-    const name = 'someState'
-    commit(LOADING, name)
+    commit(LOADING, MODULE_NAME)
 
     return authService.logout().finally(() => {
-      commit(LOADED, name)
+      commit(LOADED, MODULE_NAME)
     })
   }
 }

@@ -23,9 +23,9 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn text @click="logout">
+        <span class="mr-2">Выйти</span>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -36,8 +36,18 @@
 </template>
 
 <script>
+import { LOGOUT } from '@/store/actions/types'
+import { LOGIN_ROUTE_NAME } from '@/constants/routes'
+
 export default {
-  name: 'DashboardLayout'
+  name: 'DashboardLayout',
+  methods: {
+    logout() {
+      return this.$store.dispatch(LOGOUT).then(() => {
+        this.$router.push({ name: LOGIN_ROUTE_NAME })
+      })
+    }
+  }
 }
 </script>
 

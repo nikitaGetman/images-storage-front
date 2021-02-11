@@ -11,5 +11,12 @@ export default {
 </script>
 
 <style lang="scss">
-// .auth-layout {}
+.auth-layout {
+  max-width: 800px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

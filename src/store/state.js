@@ -1,8 +1,6 @@
 export default {
-  someState: {
+  account: {
     loading: false,
-    model: {},
-    params: {},
-    list: []
+    model: {}
   }
 }

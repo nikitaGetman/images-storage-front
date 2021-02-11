@@ -2,7 +2,7 @@
 import { loadStorageItem, saveStorageItem, removeStorageItem } from '@/services/storage'
 
 // Use for implementation of refresh and authorize methods
-// import client from './http/client'
+import client from '@/http/client'
 
 const ACCESS_TOKEN = 'app:access'
 const REFRESH_TOKEN = 'app:refresh'
@@ -91,30 +91,17 @@ class AuthService {
     })
   }
 
-  // eslint-disable-next-line
-  login({ login = 'default login', password = 'default password' }) {
-    // return client.GET('/auth', { login, password }).then(tokens => {
-    //   this.setAuthTokens(tokens)
-    // })
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const model = { login, someProperty: 'Какое-то значение модели авторизации' }
-        this.setAuthTokens({ access: btoa(`${login}:${password}`), refresh: btoa(`${login}:${password}`) })
-        resolve(model)
-      }, 3000)
+  login({ login, password }) {
+    return client.post('/user/login/', { login, password }).then(tokens => {
+      this.setAuthTokens(tokens)
     })
   }
 
-  // eslint-disable-next-line
   logout() {
+    this.removeAuthTokens()
     return new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-      }, 3000)
-    }).then(() => {
-      this.removeAuthTokens()
-    })
+      resolve()
+    }).then(() => {})
   }
 }
 
