@@ -97,6 +97,17 @@ class AuthService {
     })
   }
 
+  register({ name, login, password }) {
+    return client.post('/user/signup/', { name, login, password }).then(tokens => {
+      this.setAuthTokens(tokens)
+    })
+  }
+
+  // eslint-disable-next-line
+  fetchProfile() {
+    return client.getRaw('/user/me/')
+  }
+
   logout() {
     this.removeAuthTokens()
     return new Promise(resolve => {

@@ -1,12 +1,12 @@
 import { DASHBOARD_ROUTE_NAME, LOGIN_ROUTE_NAME, SIGNUP_ROUTE_NAME } from '@/constants/routes'
-import { checkAuth, checkNonAuth } from './middleware'
+import { checkAuth, checkNonAuth, loadProfile } from './middleware'
 
 export default [
   {
     path: '/',
     component: () => import(/* webpackChunkName: 'dashboard-layout' */ '@/layouts/Dashboard.vue'),
     meta: {
-      middleware: [checkAuth]
+      middleware: [checkAuth, loadProfile]
     },
     redirect: { name: DASHBOARD_ROUTE_NAME },
     children: [

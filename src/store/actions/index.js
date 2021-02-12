@@ -20,6 +20,35 @@ export default {
       })
   },
 
+  [types.REGISTER]: ({ commit }, { name, login, password }) => {
+    commit(LOADING, MODULE_NAME)
+
+    return authService
+      .register({ name, login, password })
+      .then(model => {
+        commit(SET_MODEL, { name: MODULE_NAME, model })
+      })
+      .catch(throwError(commit, 'Ошибка регистрации'))
+      .finally(() => {
+        commit(LOADED, MODULE_NAME)
+      })
+  },
+
+  [types.FETCH_USER_PROFILE]: ({ commit }) => {
+    commit(LOADING, MODULE_NAME)
+
+    return authService
+      .fetchProfile()
+      .then(model => {
+        console.log(model)
+        commit(SET_MODEL, { name: MODULE_NAME, model })
+      })
+      .catch(throwError(commit, 'Ошибка загрузки профиля'))
+      .finally(() => {
+        commit(LOADED, MODULE_NAME)
+      })
+  },
+
   [types.LOGOUT]: ({ commit }) => {
     commit(LOADING, MODULE_NAME)
 

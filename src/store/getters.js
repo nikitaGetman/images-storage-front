@@ -1,5 +1,5 @@
 export default {
-  someGetter({ someState }) {
-    return someState.model?.someProperty
+  isProfileLoaded({ account }) {
+    return account.model?.name
   }
 }
