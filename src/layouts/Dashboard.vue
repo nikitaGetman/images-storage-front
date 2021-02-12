@@ -10,15 +10,31 @@
           transition="scale-transition"
           width="40"
         />
+      </div>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+      <v-spacer></v-spacer>
+
+      <div class="dashboard-layout__info">
+        <span class="dashboard-layout__username"> Пользователь: {{ username }} </span>
+
+        <v-menu bottom offset-y :close-on-content-click="false">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" v-bind="attrs" v-on="on">
+              <span class="mr-2">Плагины</span>
+              <v-icon>mdi-cog</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item v-for="(item, index) in plugins" :key="index">
+              <v-checkbox
+                :input-value="item.value"
+                :label="item.label"
+                @change="changePlugin(item.label, $event)"
+              ></v-checkbox>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
 
       <v-spacer></v-spacer>
@@ -36,27 +52,52 @@
 </template>
 
 <script>
-import { LOGOUT } from '@/store/actions/types'
+import { LOGOUT, UPDATE_USER_PLUGINS } from '@/store/actions/types'
 import { LOGIN_ROUTE_NAME } from '@/constants/routes'
 
 export default {
   name: 'DashboardLayout',
+  computed: {
+    username() {
+      return this.$store.state.account.model.name
+    },
+    plugins() {
+      return this.$store.state.plugins.list.map(p => ({
+        label: p,
+        value: this.userPlugins.includes(p)
+      }))
+    },
+    userPlugins() {
+      return this.$store.state.account.model.plugins
+    }
+  },
   methods: {
     logout() {
       return this.$store.dispatch(LOGOUT).then(() => {
         this.$router.push({ name: LOGIN_ROUTE_NAME })
       })
+    },
+    changePlugin(plugin, value) {
+      const plugins = value ? [...this.userPlugins, plugin] : this.userPlugins.filter(p => p !== plugin)
+      console.log(plugins)
+      this.$store.dispatch(UPDATE_USER_PLUGINS, { plugins })
+    },
+    isPluginChecked(plugin) {
+      return this.userPlugins.includes(plugin)
     }
   }
 }
 </script>
 
 <style lang="scss">
-// .dashboard-layout {
-//   &__sidebar {}
-//   &__wrapper {}
-//   &__header {}
-//   &__main {}
-//   &__footer {}
-// }
+.dashboard-layout {
+  &__info {
+    display: flex;
+    align-items: center;
+  }
+  &__username {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+}
 </style>

@@ -1,4 +1,4 @@
-import { LOADING, SET_MODEL, LOADED } from '@/store/mutations/types'
+import { LOADING, SET_MODEL, LOADED, UPDATE_MODEL, SET_LIST } from '@/store/mutations/types'
 import { throwError } from '@/utils/store'
 import authService from '@/services/auth'
 import * as types from './types'
@@ -40,10 +40,38 @@ export default {
     return authService
       .fetchProfile()
       .then(model => {
-        console.log(model)
         commit(SET_MODEL, { name: MODULE_NAME, model })
       })
       .catch(throwError(commit, 'Ошибка загрузки профиля'))
+      .finally(() => {
+        commit(LOADED, MODULE_NAME)
+      })
+  },
+
+  [types.FETCH_AVAILABLE_PLUGINS]: ({ commit }) => {
+    commit(LOADING, MODULE_NAME)
+
+    return authService
+      .fetchPlugins()
+      .then(list => {
+        commit(SET_LIST, { name: 'plugins', list })
+      })
+      .catch(throwError(commit, 'Ошибка загрузки плагинов'))
+      .finally(() => {
+        commit(LOADED, MODULE_NAME)
+      })
+  },
+
+  [types.UPDATE_USER_PLUGINS]: ({ commit }, { plugins }) => {
+    commit(LOADING, MODULE_NAME)
+
+    return authService
+      .updatePlugins(plugins)
+      .then(model => {
+        console.log('action resultlm', model)
+        commit(UPDATE_MODEL, { name: MODULE_NAME, model })
+      })
+      .catch(throwError(commit, 'Ошибка изменения плагинов'))
       .finally(() => {
         commit(LOADED, MODULE_NAME)
       })

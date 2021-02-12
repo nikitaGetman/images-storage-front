@@ -107,6 +107,14 @@ class AuthService {
   fetchProfile() {
     return client.getRaw('/user/me/')
   }
+  // eslint-disable-next-line
+  fetchPlugins() {
+    return client.getRaw('/plugins/')
+  }
+  // eslint-disable-next-line
+  updatePlugins(plugins) {
+    return client.post('user/plugins/', { plugins })
+  }
 
   logout() {
     this.removeAuthTokens()
