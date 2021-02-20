@@ -79,7 +79,6 @@ export default {
     },
     changePlugin(plugin, value) {
       const plugins = value ? [...this.userPlugins, plugin] : this.userPlugins.filter(p => p !== plugin)
-      console.log(plugins)
       this.$store.dispatch(UPDATE_USER_PLUGINS, { plugins })
     },
     isPluginChecked(plugin) {

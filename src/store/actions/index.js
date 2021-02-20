@@ -68,7 +68,6 @@ export default {
     return authService
       .updatePlugins(plugins)
       .then(model => {
-        console.log('action resultlm', model)
         commit(UPDATE_MODEL, { name: MODULE_NAME, model })
       })
       .catch(throwError(commit, 'Ошибка изменения плагинов'))
