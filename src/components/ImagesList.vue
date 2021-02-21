@@ -8,28 +8,24 @@
       <v-btn elevation="1" icon @click="loadImages"><v-icon>mdi-reload</v-icon></v-btn>
     </div>
 
-    <div class="list">
-      <p v-if="!images.length">Библиотека пуста</p>
-      <div v-for="(image, index) of images" :key="index" class="list__item">
-        <img :src="'http://localhost:3000/images/' + id + '/' + image" alt="image" />
-      </div>
-    </div>
+    <draggable v-model="images" class="list" group="images" draggable=".drag-item">
+      <v-image-card v-for="(image, index) in images" :key="index" :image="image" class="drag-item" />
+      <p v-if="!images.length" slot="footer">Библиотека пуста</p>
+    </draggable>
   </div>
 </template>
 
 <script>
+import VImageCard from '@/components/VImageCard.vue'
+import draggable from 'vuedraggable'
 import client from '@/http/client'
 
 export default {
   name: 'ImagesList',
+  components: { VImageCard, draggable },
   data() {
     return {
       images: []
-    }
-  },
-  computed: {
-    id() {
-      return this.$store.state.account.model.id
     }
   },
   created() {
@@ -65,18 +61,5 @@ p {
   flex-wrap: wrap;
   max-height: 250px;
   overflow-y: auto;
-  &__item {
-    width: 84px;
-    height: 84px;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
 }
 </style>

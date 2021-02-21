@@ -9,29 +9,25 @@
       <v-text-field v-model="search" label="Название" type="text" />
     </div>
 
-    <div class="list">
-      <p v-if="!images.length">Ничего не найдено</p>
-      <div v-for="(image, index) of images" :key="index" class="list__item">
-        <img :src="'http://localhost:3000/images/' + id + '/' + image" alt="image" />
-      </div>
-    </div>
+    <draggable v-model="images" class="list" group="images" draggable=".drag-item">
+      <v-image-card v-for="(image, index) in images" :key="index" :image="image" class="drag-item" />
+      <div v-if="!images.length" slot="footer">Ничего не найдено</div>
+    </draggable>
   </div>
 </template>
 
 <script>
+import VImageCard from '@/components/VImageCard.vue'
+import draggable from 'vuedraggable'
 import client from '@/http/client'
 
 export default {
   name: 'ImagesFilter',
+  components: { VImageCard, draggable },
   data() {
     return {
       search: '',
       images: []
-    }
-  },
-  computed: {
-    id() {
-      return this.$store.state.account.model.id
     }
   },
   created() {

@@ -5,6 +5,7 @@
       <images-filter v-if="imagesFilterActive" />
       <download-from-web v-if="downloadFromWebActive" />
       <download-from-user v-if="downloadFromUserActive" />
+      <images-deletion v-if="imageDeletionActive" />
     </div>
   </div>
 </template>
@@ -14,10 +15,11 @@ import ImagesList from '@/components/ImagesList.vue'
 import ImagesFilter from '@/components/ImagesFilter.vue'
 import DownloadFromUser from '@/components/DownloadFromUser.vue'
 import DownloadFromWeb from '@/components/DownloadFromWeb.vue'
+import ImagesDeletion from '@/components/ImagesDeletion.vue'
 
 export default {
   name: 'Dashboard',
-  components: { ImagesList, ImagesFilter, DownloadFromUser, DownloadFromWeb },
+  components: { ImagesList, ImagesFilter, DownloadFromUser, DownloadFromWeb, ImagesDeletion },
   computed: {
     userPlugins() {
       return this.$store.state.account.model.plugins
@@ -33,6 +35,9 @@ export default {
     },
     downloadFromUserActive() {
       return this.userPlugins.includes('download-image-from-user')
+    },
+    imageDeletionActive() {
+      return this.userPlugins.includes('images-deletion')
     }
   }
 }
