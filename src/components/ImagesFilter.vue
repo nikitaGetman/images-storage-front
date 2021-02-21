@@ -39,6 +39,7 @@ export default {
   },
   methods: {
     findImages() {
+      if (!this.search) return
       client.getRaw('/image-filters', { params: { name: this.search } }).then(data => {
         this.images = data
       })

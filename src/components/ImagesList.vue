@@ -1,7 +1,9 @@
 <template>
   <div class="card">
     <div class="header">
-      <h4 class="title">Ваши изображения</h4>
+      <h4 class="title">
+        Ваши изображения <span class="title__count">({{ images.length }})</span>
+      </h4>
 
       <v-btn elevation="1" icon @click="loadImages"><v-icon>mdi-reload</v-icon></v-btn>
     </div>
@@ -44,9 +46,13 @@ export default {
 </script>
 
 <style lang="scss">
+.title__count {
+  color: rgb(155, 155, 155);
+}
 .header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 12px;
 }
 p {
   flex-grow: 1;
@@ -57,16 +63,19 @@ p {
 .list {
   display: flex;
   flex-wrap: wrap;
+  max-height: 250px;
+  overflow-y: auto;
   &__item {
-    width: 100px;
-    height: 100px;
+    width: 84px;
+    height: 84px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      border-radius: 12px;
     }
   }
 }

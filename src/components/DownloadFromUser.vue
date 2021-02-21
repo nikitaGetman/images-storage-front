@@ -6,7 +6,7 @@
       <v-btn elevation="1" icon @click="upload"><v-icon>mdi-cloud-download-outline</v-icon></v-btn>
     </div>
     <div class="row">
-      <v-file-input v-model="file" chips show-size truncate-length="27"></v-file-input>
+      <v-file-input v-model="file" chips show-size truncate-length="10"></v-file-input>
     </div>
 
     <div class="list">
@@ -40,8 +40,9 @@ export default {
         .post('/download-image-from-user', formData)
         .then(data => {
           this.text = `Изображение ${data.data.name} загружено`
+          this.file = null
         })
-        .finaly(() => {
+        .finally(() => {
           this.loading = false
         })
     }
