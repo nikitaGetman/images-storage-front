@@ -5,9 +5,13 @@
     </div>
 
     <draggable class="deletion" :list="list" group="images" draggable=".drag-item" @change="log">
-      <v-icon class="deletion__icon">mdi-trash-can-outline</v-icon>
-      <span v-if="!deleted" class="deletion__text">Перетащите сюда файл для удаления</span>
-      <span v-else class="deletion__text">Файл {{ file.name }} удален</span>
+      <template #footer>
+        <span class="deletion__text">
+          <v-icon class="deletion__text deletion__icon">mdi-trash-can-outline</v-icon>
+        </span>
+        <span v-if="!deleted" class="deletion__text">Перетащите сюда файл для удаления</span>
+        <span v-else class="deletion__text">Файл {{ file.name }} удален</span>
+      </template>
     </draggable>
   </div>
 </template>
@@ -28,9 +32,7 @@ export default {
   },
   methods: {
     log(evt) {
-      client.delete('/images-deletion', { data: { image: evt.added.element } }).then(data => {
-        console.log(data)
-      })
+      client.delete('/images-deletion', { data: { image: evt.added.element } })
       console.log('delete', evt.added.element)
     }
   }
@@ -44,6 +46,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .drag-item {
+    z-index: 10;
+  }
 
   &__icon {
     font-size: 7em !important;
@@ -59,6 +65,7 @@ export default {
     right: 0;
     bottom: 0;
     top: 0;
+    z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;

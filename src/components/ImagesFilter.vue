@@ -9,21 +9,20 @@
       <v-text-field v-model="search" label="Название" type="text" />
     </div>
 
-    <draggable v-model="images" class="list" group="images" draggable=".drag-item">
+    <div class="list">
       <v-image-card v-for="(image, index) in images" :key="index" :image="image" class="drag-item" />
       <div v-if="!images.length" slot="footer">Ничего не найдено</div>
-    </draggable>
+    </div>
   </div>
 </template>
 
 <script>
 import VImageCard from '@/components/VImageCard.vue'
-import draggable from 'vuedraggable'
 import client from '@/http/client'
 
 export default {
   name: 'ImagesFilter',
-  components: { VImageCard, draggable },
+  components: { VImageCard },
   data() {
     return {
       search: '',
