@@ -3,7 +3,7 @@
     <img :src="src" alt="image" />
 
     <div v-if="fullView" class="image-card__full" @click.stop="fullView = false">
-      <div class="image-card__wrapper">
+      <div class="image-card__wrapper" @click.stop>
         <v-img :src="src" :lazy-src="src" class="grey lighten-2">
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -11,6 +11,10 @@
             </v-row>
           </template>
         </v-img>
+
+        <v-btn elevation="1" icon class="image-card__download" @click.stop="download"
+          ><v-icon>mdi-download</v-icon></v-btn
+        >
       </div>
     </div>
   </div>
@@ -38,6 +42,16 @@ export default {
   methods: {
     openFullView() {
       this.fullView = true
+    },
+    download() {
+      console.log('download')
+      const a = document.createElement('a')
+      a.href = this.src
+      a.target = '_blank'
+      a.download = this.image
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
     }
   }
 }
@@ -72,6 +86,14 @@ export default {
 
   &__wrapper {
     max-width: 500px;
+    position: relative;
+  }
+  &__download {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    color: #fff !important;
+    background-color: rgb(110, 110, 110);
   }
 }
 </style>
