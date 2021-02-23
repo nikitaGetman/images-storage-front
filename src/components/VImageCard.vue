@@ -1,24 +1,22 @@
 <template>
   <div class="image-card" @click="openFullView">
-    <v-responsive :aspect-ratio="1 / 1">
-      <img :src="src" alt="image" />
+    <img :src="src" alt="image" />
 
-      <div v-if="fullView" class="image-card__full" @click.stop="fullView = false">
-        <div class="image-card__wrapper" @click.stop>
-          <v-img :src="src" :lazy-src="src" class="grey lighten-2">
-            <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-              </v-row>
-            </template>
-          </v-img>
+    <div v-if="fullView" class="image-card__full" @click.stop="fullView = false">
+      <div class="image-card__wrapper" @click.stop>
+        <v-img :src="src" :lazy-src="src" class="grey lighten-2">
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
 
-          <v-btn elevation="1" icon class="image-card__download" @click.stop="download"
-            ><v-icon>mdi-download</v-icon></v-btn
-          >
-        </div>
+        <v-btn elevation="1" icon class="image-card__download" @click.stop="download"
+          ><v-icon>mdi-download</v-icon></v-btn
+        >
       </div>
-    </v-responsive>
+    </div>
   </div>
 </template>
 
@@ -61,7 +59,8 @@ export default {
 
 <style lang="scss">
 .image-card {
-  width: 30%;
+  width: 84px;
+  height: 84px;
   margin-right: 8px;
   margin-bottom: 8px;
   border-radius: 12px;
