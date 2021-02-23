@@ -38,7 +38,7 @@ export default {
         .then(data => {
           this.text = `Добавлено ${data.length} изображений`
         })
-        .finaly(() => {
+        .finally(() => {
           this.loading = false
         })
     }
