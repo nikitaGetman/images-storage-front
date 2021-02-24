@@ -62,6 +62,12 @@ export default {
       })
   },
 
+  [types.FETCH_TAGS]: ({ commit }) => {
+    return authService.fetchTags().then(({ tags }) => {
+      commit(SET_LIST, { name: 'tags', list: tags })
+    })
+  },
+
   [types.UPDATE_USER_PLUGINS]: ({ commit }, { plugins }) => {
     commit(LOADING, MODULE_NAME)
 

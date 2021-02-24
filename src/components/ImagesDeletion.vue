@@ -32,8 +32,7 @@ export default {
   },
   methods: {
     log(evt) {
-      client.delete('/images-deletion', { data: { image: evt.added.element } })
-      console.log('delete', evt.added.element)
+      client.delete('/images-deletion', { data: { image: evt.added.element.name } })
     }
   }
 }

@@ -113,7 +113,11 @@ class AuthService {
   }
   // eslint-disable-next-line
   updatePlugins(plugins) {
-    return client.post('user/plugins/', { plugins })
+    return client.post('/user/plugins/', { plugins })
+  }
+  // eslint-disable-next-line
+  fetchTags(){
+    return client.getRaw('/user/tags/')
   }
 
   logout() {
