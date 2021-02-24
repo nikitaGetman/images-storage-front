@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@algoz098/vue-player": "^0.4.3",
     "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "is-plain-object": "^5.0.0",

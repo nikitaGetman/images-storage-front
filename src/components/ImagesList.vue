@@ -19,6 +19,10 @@
         :image="image"
         class="drag-item"
         :view="view"
+        :is-active="activeIndex === index"
+        @right="goRight"
+        @left="goLeft"
+        @activate="activate(index, $event)"
         @reload="loadImages"
       />
       <p v-if="!images.length" slot="footer">Библиотека пуста</p>
@@ -37,7 +41,8 @@ export default {
   data() {
     return {
       images: [],
-      view: 'grid'
+      view: 'grid',
+      activeIndex: null
     }
   },
   computed: {
@@ -49,6 +54,17 @@ export default {
     this.loadImages()
   },
   methods: {
+    goRight() {
+      this.activeIndex += 1
+      if (this.activeIndex > this.images.length - 1) this.activeIndex = 0
+    },
+    goLeft() {
+      this.activeIndex -= 1
+      if (this.activeIndex < 0) this.activeIndex = this.images.length - 1
+    },
+    activate(index, val) {
+      this.activeIndex = val ? index : null
+    },
     toggleView() {
       if (this.view === 'grid') this.view = 'list'
       else this.view = 'grid'

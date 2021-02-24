@@ -1,11 +1,11 @@
 <template>
   <div class="image-card" :class="{ 'image-card__row': view === 'list' }" @click="openFullView">
     <template v-if="view === 'grid'">
-      <img :src="src" alt="image" />
+      <img :src="previewSrc" alt="image" />
     </template>
     <template v-if="view === 'list'">
       <div class="image-card__item">
-        <div class="image-card__item-image"><img :src="src" alt="image" /></div>
+        <div class="image-card__item-image"><img :src="previewSrc" alt="image" /></div>
         <div class="image-card__item-name">{{ image.name }}</div>
         <div v-if="tag" class="image-card__item-tag">
           <v-chip>{{ tag }}</v-chip>
@@ -22,7 +22,14 @@
             </v-row>
           </template>
         </v-img>
-        <div v-else class="image-card__video">Это видео</div>
+        <div v-else class="image-card__video">
+          <vue-player
+            v-model="playing"
+            :src="src"
+            poster="https://via.placeholder.com/150"
+            title="this is a title"
+          ></vue-player>
+        </div>
 
         <div class="image-card__info">
           <div class="image-card__name">{{ image.name }}</div>
@@ -48,6 +55,17 @@
             >
           </div>
         </div>
+
+        <div class="image-card__right">
+          <v-btn elevation="1" icon class="image-card__download" @click.stop="goRight">
+            <v-icon>mdi-chevron-right-circle</v-icon>
+          </v-btn>
+        </div>
+        <div class="image-card__left">
+          <v-btn elevation="1" icon class="image-card__download" @click.stop="goLeft">
+            <v-icon>mdi-chevron-left-circle</v-icon>
+          </v-btn>
+        </div>
       </div>
     </div>
   </div>
@@ -55,26 +73,41 @@
 
 <script>
 import client from '@/http/client'
+import vuePlayer from '@algoz098/vue-player'
 
 export default {
   name: 'VImageCard',
+  components: { vuePlayer },
   props: {
     image: { type: Object, required: true },
-    view: { type: String, default: 'grid' }
+    view: { type: String, default: 'grid' },
+    isActive: { type: Boolean, default: false }
   },
   data() {
     return {
-      fullView: false
+      playing: false
     }
   },
   computed: {
+    fullView: {
+      get() {
+        return this.isActive
+      },
+      set(val) {
+        this.$emit('activate', val)
+      }
+    },
+    player() {
+      return this.$refs.videoPlayer.player
+    },
     id() {
       return this.$store.state.account.model.id
     },
+    previewSrc() {
+      return this.isVideo ? 'http://localhost:3000/images/video_preview.jpg' : this.src
+    },
     src() {
-      return !this.isVideo
-        ? `http://localhost:3000/images/${this.id}/${this.image.name}`
-        : 'http://localhost:3000/images/video_preview.jpg'
+      return `http://localhost:3000/images/${this.id}/${this.image.name}`
     },
     tags() {
       return this.$store.state.tags.list
@@ -83,7 +116,7 @@ export default {
       return this.image.tag ? this.tags.find(t => t.id === this.image.tag).tag : null
     },
     isVideo() {
-      return this.image.name.includes('mp4')
+      return this.image.name.includes('mp4') || this.image.name.includes('webm')
     }
   },
   methods: {
@@ -103,6 +136,12 @@ export default {
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
+    },
+    goLeft() {
+      this.$emit('left')
+    },
+    goRight() {
+      this.$emit('right')
     }
   }
 }
@@ -154,7 +193,7 @@ export default {
   }
 
   &__wrapper {
-    max-width: 500px;
+    width: 500px;
     position: relative;
   }
   &__info {
@@ -186,6 +225,18 @@ export default {
   &__download {
     color: #fff !important;
     background-color: rgb(70, 99, 163) !important;
+  }
+  &__right {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+  &__left {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translate(-100%, -50%);
   }
 }
 </style>
